@@ -40,4 +40,18 @@ router.put("/game/:id", express.json(), (req, res) => {
   }
 });
 
+router.delete("/game/:id", (req, res) => {
+  const game = games.find((g) => g.id === req.params.id);
+
+  if (game) {
+    const updatedGames = games.filter((g) => g.id !== req.params.id);
+    games.length = 0;
+    games.push(...updatedGames);
+
+    res.status(200).json({ message: "Game deleted successfully" });
+  } else {
+    res.status(404).json({ message: "Game not found" });
+  }
+});
+
 export default router;
