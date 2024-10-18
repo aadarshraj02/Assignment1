@@ -3,6 +3,18 @@ import games from "../data/data.js";
 
 const router = express.Router();
 
+const validateGame = (req, res, next) => {
+  const { gameName, gameType, releaseYear } = req.body;
+
+  if (!gameName || !gameType || !releaseYear) {
+    return res.status(400).json({
+      message: "Missing required fields: gameName, gameType, releaseYear",
+    });
+  }
+
+  next();
+};
+
 router.get("/games", (req, res) => {
   res.status(200).json(games);
 });
@@ -16,7 +28,7 @@ router.get("/game/:id", (req, res) => {
   }
 });
 
-router.post("/game", express.json(), (req, res) => {
+router.post("/game", validateGame, (req, res) => {
   const { gameName, gameType, releaseYear } = req.body;
   const newGame = {
     id: String(games.length + 1),
@@ -28,7 +40,7 @@ router.post("/game", express.json(), (req, res) => {
   res.status(201).json(newGame);
 });
 
-router.put("/game/:id", express.json(), (req, res) => {
+router.put("/game/:id", validateGame, (req, res) => {
   const game = games.find((g) => g.id === req.params.id);
   if (game) {
     game.gameName = req.body.gameName || game.gameName;
