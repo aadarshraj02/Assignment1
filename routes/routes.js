@@ -16,4 +16,16 @@ router.get("/games/:id", (req, res) => {
   }
 });
 
+router.post("/game", express.json(), (req, res) => {
+  const { gameName, gameType, releaseYear } = req.body;
+  const newGame = {
+    id: games.length + 1,
+    gameName,
+    gameType,
+    releaseYear,
+  };
+  games.push(newGame);
+  res.status(201).json(newGame);
+});
+
 export default router;
