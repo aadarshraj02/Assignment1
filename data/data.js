@@ -1,4 +1,4 @@
-const users = [
+const games = [
   {
     id: "1",
     gameName: "GTA V",
@@ -31,4 +31,4 @@ const users = [
   },
 ];
 
-export default users;
+export default games;
