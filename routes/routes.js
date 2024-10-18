@@ -7,7 +7,7 @@ router.get("/games", (req, res) => {
   res.status(200).json(games);
 });
 
-router.get("/games/:id", (req, res) => {
+router.get("/game/:id", (req, res) => {
   const game = games.find((g) => g.id === req.params.id);
   if (game) {
     res.status(200).json(game);
@@ -26,6 +26,18 @@ router.post("/game", express.json(), (req, res) => {
   };
   games.push(newGame);
   res.status(201).json(newGame);
+});
+
+router.put("/game/:id", express.json(), (req, res) => {
+  const game = games.find((g) => g.id === req.params.id);
+  if (game) {
+    game.gameName = req.body.gameName || game.gameName;
+    game.gameType = req.body.gameType || game.gameType;
+    game.releaseYear = req.body.releaseYear || game.releaseYear;
+    res.status(200).json(game);
+  } else {
+    res.status(404).json({ message: "Game not found" });
+  }
 });
 
 export default router;
