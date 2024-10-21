@@ -4,6 +4,7 @@ import routes from "./routes/routes.js";
 const app = express();
 const PORT = 5000;
 
+//middleware to get log requests
 const logRequests = (req, res, next) => {
   res.on("finish", () => {
     const method = req.method;

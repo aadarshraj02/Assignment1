@@ -1,9 +1,11 @@
-import express from "express";
-import games from "../data/data.js";
+import express from "express";  //called express
+import games from "../data/data.js";   //called games data
 
-const router = express.Router();
+const router = express.Router();  //called router
 
-const validateGame = (req, res, next) => {
+
+//Middleware for validate game with required fields in post and put request
+const validateGame = (req, res, next) => {         
   const { gameName, gameType, releaseYear } = req.body;
 
   if (!gameName || !gameType || !releaseYear) {
@@ -15,10 +17,13 @@ const validateGame = (req, res, next) => {
   next();
 };
 
+
+//Route to get all games
 router.get("/games", (req, res) => {
   res.status(200).json(games);
 });
 
+//route to get game by specific id
 router.get("/game/:id", (req, res) => {
   const game = games.find((g) => g.id === req.params.id);
   if (game) {
@@ -28,18 +33,21 @@ router.get("/game/:id", (req, res) => {
   }
 });
 
+
+//route to post game with validation of required fields
 router.post("/game", validateGame, (req, res) => {
   const { gameName, gameType, releaseYear } = req.body;
   const newGame = {
-    id: String(games.length + 1),
+    id: String(games.length + 1),  //for new game id
     gameName,
     gameType,
     releaseYear,
   };
-  games.push(newGame);
+  games.push(newGame); //pushing the newly added game into game data
   res.status(201).json(newGame);
 });
 
+//Updating game according to game id and validation
 router.put("/game/:id", validateGame, (req, res) => {
   const game = games.find((g) => g.id === req.params.id);
   if (game) {
@@ -52,6 +60,7 @@ router.put("/game/:id", validateGame, (req, res) => {
   }
 });
 
+//route for deleting game according to id
 router.delete("/game/:id", (req, res) => {
   const game = games.find((g) => g.id === req.params.id);
 

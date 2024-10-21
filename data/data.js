@@ -1,3 +1,5 @@
+//Default data for games
+
 const games = [
   {
     id: "1",
